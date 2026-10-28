@@ -1,0 +1,20 @@
+// EIC-SPEC-02: Unauthorized Kernel Dump Redirection & Decoy Barrier
+module sandbox_decoy_barrier (
+    input logic clk,
+    input logic rst_n,
+    input logic illegal_kernel_dump_probe,
+    input logic shadow_bus_divert_en,
+    input logic decoy_sandbox_active,
+    input logic egress_leak_detected
+);
+
+    property p_decoy_sandbox_isolation;
+        @(posedge clk) disable iff (!rst_n)
+        $rose(illegal_kernel_dump_probe)
+        |-> ##[1:4] ($sampled(shadow_bus_divert_en) && $sampled(decoy_sandbox_active) && !$sampled(egress_leak_detected));
+    endproperty
+
+    assert_decoy_isolation: assert property (p_decoy_sandbox_isolation)
+        else $error("[FATAL][SIG-GATE-05] Decoy sandbox isolation latency violated T_isolate <= 4 cycles!");
+
+endmodule

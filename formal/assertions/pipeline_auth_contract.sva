@@ -1,0 +1,21 @@
+// EIC-SPEC-01: Discrete-Beat Hardware Instruction Authentication Contract
+module pipeline_auth_contract (
+    input logic clk,
+    input logic rst_n,
+    input logic inst_valid,
+    input logic [31:0] inst_beat_signature,
+    input logic [31:0] expected_causal_token,
+    input logic auth_fail_trigger,
+    input logic compute_collapse_engaged
+);
+
+    property p_instruction_auth_bounded_collapse;
+        @(posedge clk) disable iff (!rst_n)
+        ($sampled(inst_valid) && ($sampled(inst_beat_signature) != $sampled(expected_causal_token)))
+        |-> ##[1:2] ($sampled(auth_fail_trigger) && $sampled(compute_collapse_engaged));
+    endproperty
+
+    assert_inst_auth_collapse: assert property (p_instruction_auth_bounded_collapse)
+        else $error("[FATAL][SIG-GATE-04] Instruction authentication collapse latency exceeded 2 cycles!");
+
+endmodule

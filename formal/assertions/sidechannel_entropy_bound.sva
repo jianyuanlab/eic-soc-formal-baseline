@@ -1,0 +1,20 @@
+// EIC-SPEC-04: Active Power Flattening & Anti-Magnetic Inversion
+module sidechannel_entropy_bound (
+    input logic clk,
+    input logic rst_n,
+    input logic crypto_exec_valid,
+    input logic current_injection_active,
+    input logic [15:0] power_cross_correlation,
+    input logic [15:0] epsilon_threshold
+);
+
+    property p_sidechannel_entropy_bound;
+        @(posedge clk) disable iff (!rst_n)
+        $sampled(crypto_exec_valid)
+        |-> ($sampled(current_injection_active) && ($sampled(power_cross_correlation) < $sampled(epsilon_threshold)));
+    endproperty
+
+    assert_entropy_bound: assert property (p_sidechannel_entropy_bound)
+        else $error("[FATAL][SIG-GATE-07] Power flattening cross-correlation exceeded provable leakage bound!");
+
+endmodule

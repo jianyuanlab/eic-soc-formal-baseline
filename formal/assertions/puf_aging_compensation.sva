@@ -1,0 +1,21 @@
+// EIC-SPEC-05: PUF Multi-Stress Dynamic Drift Calibration Invariant
+module puf_aging_compensation (
+    input logic clk,
+    input logic rst_n,
+    input logic puf_auth_request,
+    input logic [11:0] junction_temperature,
+    input logic calib_matrix_applied,
+    input logic key_reconstruct_success,
+    input logic ber_violation_alarm
+);
+
+    property p_puf_drift_calibration;
+        @(posedge clk) disable iff (!rst_n)
+        ($rose(puf_auth_request) && (junction_temperature >= 12'd0) && (junction_temperature <= 12'd1900))
+        |-> ##[2:8] ($sampled(calib_matrix_applied) && $sampled(key_reconstruct_success) && !$sampled(ber_violation_alarm));
+    endproperty
+
+    assert_puf_calibration: assert property (p_puf_drift_calibration)
+        else $error("[FATAL][SIG-GATE-08] PUF fuzzy extractor key reconstruction failed under environmental stress!");
+
+endmodule

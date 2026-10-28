@@ -1,0 +1,20 @@
+// EIC-SPEC-03: Out-of-Band Analog Fuse Safe Partial-Order Reload
+module oob_fuse_reload (
+    input logic clk,
+    input logic rst_n,
+    input logic high_voltage_dv_dt_trip,
+    input logic dynamic_impedance_sink_active,
+    input logic cdc_flush_complete,
+    input logic link_reloaded_clean
+);
+
+    property p_oob_safe_reload_contract;
+        @(posedge clk) disable iff (!rst_n)
+        $rose(high_voltage_dv_dt_trip)
+        |-> ($sampled(dynamic_impedance_sink_active)) ## ($sampled(cdc_flush_complete) && $sampled(link_reloaded_clean));
+    endproperty
+
+    assert_oob_reload: assert property (p_oob_safe_reload_contract)
+        else $error("[FATAL][SIG-GATE-06] OOB safe-reload handshake failed to eliminate ghost states within bounded cycles!");
+
+endmodule
