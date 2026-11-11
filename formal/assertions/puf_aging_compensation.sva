@@ -3,15 +3,19 @@ module puf_aging_compensation (
     input logic clk,
     input logic rst_n,
     input logic puf_auth_request,
-    input logic [11:0] junction_temperature,
+    // 0.1°C resolution signed temperature: -40.0°C (-400) to +150.0°C (+1500)
+    input logic signed [11:0] junction_temperature,
     input logic calib_matrix_applied,
     input logic key_reconstruct_success,
     input logic ber_violation_alarm
 );
 
+    // SIG-GATE-08: Full automotive envelope (-40°C to +150°C) drift convergence
     property p_puf_drift_calibration;
         @(posedge clk) disable iff (!rst_n)
-        ($rose(puf_auth_request) && (junction_temperature >= 12'd0) && (junction_temperature <= 12'd1900))
+        ($rose(puf_auth_request) && 
+         (junction_temperature >= -12'sd400) && 
+         (junction_temperature <= 12'sd1500))
         |-> ##[2:8] ($sampled(calib_matrix_applied) && $sampled(key_reconstruct_success) && !$sampled(ber_violation_alarm));
     endproperty
 

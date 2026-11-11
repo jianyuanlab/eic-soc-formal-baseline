@@ -1,0 +1,20 @@
+name: SVA Lint & CI Screening
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  lint-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Grant execution permission
+        run: chmod +x scripts/run_sva_lint.sh
+
+      - name: Execute SVA Lint Gate
+        run: bash scripts/run_sva_lint.sh

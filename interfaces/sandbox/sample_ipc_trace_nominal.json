@@ -1,0 +1,42 @@
+{
+  "version": "2.0.0",
+  "device_id": "JYL-TEST-EIC-01",
+  "trace_type": "NOMINAL_BASELINE",
+  "timestamp_cycle": 1048576,
+  "clock_domain": "clk_core_1GHz",
+  "system_state": {
+    "profile_active": "Profile-S",
+    "global_deadlock_status": "CLEARED",
+    "cdc_phase_aligned": true
+  },
+  "telemetry_stream": {
+    "eic_spec_01": {
+      "instruction_auth_latency_cycles": 1,
+      "gate_collapse_engaged": false
+    },
+    "eic_spec_02": {
+      "unauthorized_dump_intercepted": false,
+      "decoy_sandbox_diverted": false
+    },
+    "eic_spec_03": {
+      "inductive_overshoot_detected": false,
+      "oob_fuse_active": false,
+      "drain_fifo_cycles": 0,
+      "partial_order_reload_passed": true
+    },
+    "eic_spec_04": {
+      "sidechannel_entropy_metric": 0.0012,
+      "dpa_cpa_decorrelation_passed": true
+    },
+    "eic_spec_05": {
+      "puf_drift_ppm": 0.04,
+      "fuzzy_extractor_syndrome_err": 0,
+      "zero_plaintext_verified": true
+    }
+  },
+  "formal_assertions_status": {
+    "total_evaluated": 16,
+    "proven_count": 16,
+    "violations_count": 0
+  }
+}

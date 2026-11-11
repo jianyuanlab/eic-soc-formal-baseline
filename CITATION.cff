@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use this formal sign-off baseline, please cite it as below."
+authors:
+  - name: "Jianyuan Lab (Endogenous Control Group)"
+    affiliation: "Shanghai Jianyuan Culture & Art Co., Ltd."
+title: "Global Industrial Safety Initiative & Formal Sign-off Baseline Specification for Mission-Critical Heterogeneous SoCs (v2.0.0)"
+version: 2.0.0
+doi: 10.5281/zenodo.23717306
+date-released: 2026-10-28
+url: "https://github.com/jianyuanlab/eic-soc-formal-baseline"
+repository-code: "https://github.com/jianyuanlab/eic-soc-formal-baseline"
+keywords:
+  - "Mission-Critical SoC"
+  - "Formal Sign-off"
+  - "SystemVerilog Assertions"
+  - "ISO 26262"
+  - "ISO 21434"
+license: CC-BY-NC-ND-4.0
