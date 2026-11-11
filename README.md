@@ -34,7 +34,7 @@ To validate the SVA formal assertion contracts against local EDA linting rules:
 
 ```bash
 # Clone the engineering baseline
-git clone [https://github.com/jianyuanlab/eic-soc-formal-baseline.git](https://github.com/jianyuanlab/eic-soc-formal-baseline.git)
+git clone https://github.com/jianyuanlab/eic-soc-formal-baseline.git
 cd eic-soc-formal-baseline
 
 # Execute headless SVA linting and race-condition checks
@@ -58,7 +58,7 @@ If your technical evaluation or research references this formal baseline or micr
   year         = 2026,
   publisher    = {Zenodo},
   doi          = {10.5281/zenodo.23717306},
-  url          = {[https://doi.org/10.5281/zenodo.23717306](https://doi.org/10.5281/zenodo.23717306)}
+  url          = {https://doi.org/10.5281/zenodo.23717306}
 }
 ```
 
